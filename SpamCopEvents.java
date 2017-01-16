@@ -36,7 +36,7 @@ public class SpamCopEvents implements Listener{
         
         //Adds player to a HashMap of recently said messagees
         
-        if(SpamCopOptions.useMessageRepeatTimer && !p.hasPermission("pamCop.canBypassDoubleMessagesTimer")){
+        if(SpamCopOptions.useMessageRepeatTimer && !p.hasPermission("spamCop.canBypassDoubleMessagesTimer")){
             if(!SpamCop.getPlayerMessages().containsKey(e.getPlayer().getUniqueId())){
                 List<String> msgs = new ArrayList<>(); 
                 SpamCop.getPlayerMessages().put(e.getPlayer().getUniqueId(), msgs);
