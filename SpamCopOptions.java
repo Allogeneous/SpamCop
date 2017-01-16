@@ -40,7 +40,7 @@ public class SpamCopOptions {
                 if(iterations > 0){
                     try{
                         String[] split = line.split(":");
-                        optionArguments[iterations - 1] = split[1];
+                        optionArguments[iterations - 1] = split[1].substring(1);
                     }catch (Exception e){
                         String[] split = defaults[iterations].split(":");
                         optionArguments[iterations - 1] = split[1].substring(1);
