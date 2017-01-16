@@ -12,7 +12,7 @@ public class SpamCopOptions {
     
     //Variables
     
-    public static String[] defaults = {"Spam Cop Options and Settings!", "UseWarnTimer: true", "UseMessageRepeatTimer: true" ,"UseMaxSingleWordMessageLength: true", "UseRepeatLetters: true", "UseMatchingLetters: true", "UseMatchingWords: true", "UseNoRepeatMessage: true", "MaxWordLength: 25" , "CharacterPercent: 80", "WordPercent: 80", "RepeatLetters: 4", "CorrectionsWordLeght: 2", "CorrectionsMessageLength: 10", "UseCorrectionFilter: true", "KickTimerSpeed (Minutes): 5", "RepeatTimerSpeed (Seconds): 5, TimesToSpamUntilKicked: 5"};
+    public static String[] defaults = {"Spam Cop Options and Settings!", "UseWarnTimer: true", "UseMessageRepeatTimer: true" ,"UseMaxSingleWordMessageLength: true", "UseRepeatLetters: true", "UseMatchingLetters: true", "UseMatchingWords: true", "UseNoRepeatMessage: true", "MaxWordLength: 25" , "CharacterPercent: 80", "WordPercent: 80", "RepeatLetters: 4", "CorrectionsWordLeght: 2", "CorrectionsMessageLength: 10", "UseCorrectionFilter: true", "KickTimerSpeed (Minutes): 5", "RepeatTimerSpeed (Seconds): 5", "TimesToSpamUntilKicked: 5"};
     public static String[] optionArguments = new String[17];
     public static boolean useWarnTimer, useMessageRepeatTimer, useMaxSingleWordMessageLength, useRepeatLetters, useMatchingLetters, useMatchingWords, useNoRepeatMessage, useCorrectionFilter;
     public static int maxWordLength, characterPercent, wordPercent, repeatLetters , correctionsWordLeght, correctionsMessageLength, kickTimerSpeed, repeatTimerSpeed, spamTimesToKick;
