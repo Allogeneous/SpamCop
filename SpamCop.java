@@ -15,6 +15,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class SpamCop extends JavaPlugin implements Listener{
 
+    //Variables
+    
     public SpamCopEvents sce = new SpamCopEvents(this);
     private static HashMap<UUID, List<String>> playerMessages;
     private static HashMap<UUID, StringBuilder> lastMessage;
@@ -22,6 +24,7 @@ public class SpamCop extends JavaPlugin implements Listener{
     private static HashMap<UUID, BukkitTask> kickReset;
     public static String tag = ChatColor.RED + "[Spam" + ChatColor.BLUE + "Cop] ";
 
+    //Define maps and make files on enable
     
     @Override
     public void onEnable(){
@@ -36,12 +39,15 @@ public class SpamCop extends JavaPlugin implements Listener{
         setLastMessage(new HashMap<>());
         setTimesWarned(new HashMap<>());
         setKickReset(new HashMap<>());
+        System.out.println("[SpamCop] Enabled!");
     }
     
     @Override
     public void onDisable(){
-        
+        System.out.println("[SpamCop] Disabled!");
     }
+    
+    //Saves the file
     
     public void saveOptions(Object uuid, File options){
         try{
@@ -55,6 +61,8 @@ public class SpamCop extends JavaPlugin implements Listener{
         }catch (Exception e){}
     }
   
+    //Loads the file
+    
     public Object loadOptions(File options){
         try{
             if(!options.exists()) {
@@ -71,6 +79,8 @@ public class SpamCop extends JavaPlugin implements Listener{
             return null;
         } 
     }
+    
+    //Getters and setter for maps
     
     public static HashMap<UUID, StringBuilder> getLastMessage() {
         return lastMessage;

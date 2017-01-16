@@ -15,11 +15,13 @@ public class SpamCopWordListWorker extends BukkitRunnable{
         this.msg = msg;
     }
 
+    //Runs untill the message can be repeated again
+    
     @Override
     public void run() {
-        
         if(SpamCop.getPlayerMessages().containsKey(uuid)){
             SpamCop.getPlayerMessages().get(uuid).remove(msg);
+            this.cancel();
         }
         
     }

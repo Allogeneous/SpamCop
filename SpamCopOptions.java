@@ -10,10 +10,14 @@ import java.util.Arrays;
 
 public class SpamCopOptions {
     
-    public static String[] defaults = {"Spam Cop Options and Settings!", "UseWarnTimer: true", "UseMessageRepeatTimer: true" ,"UseMaxSingleWordMessageLength: true", "UseRepeatLetters: true", "UseMatchingLetters: true", "UseMatchingWords: true", "UseNoRepeatMessage: true", "MaxWordLength: 25" , "CharacterPercent: 80", "WordPercent: 80", "RepeatLetters: 4", "CorrectionsWordLeght: 2", "CorrectionsMessageLength: 10", "UseCorrectionFilter: true"};
-    public static String[] optionArguments = new String[14];
+    //Variables
+    
+    public static String[] defaults = {"Spam Cop Options and Settings!", "UseWarnTimer: true", "UseMessageRepeatTimer: true" ,"UseMaxSingleWordMessageLength: true", "UseRepeatLetters: true", "UseMatchingLetters: true", "UseMatchingWords: true", "UseNoRepeatMessage: true", "MaxWordLength: 25" , "CharacterPercent: 80", "WordPercent: 80", "RepeatLetters: 4", "CorrectionsWordLeght: 2", "CorrectionsMessageLength: 10", "UseCorrectionFilter: true, KickTimerSpeed (Minutes): 5", "RepeatTimerSpeed (Seconds): 5, TimesToSpamUntilKicked: 5"};
+    public static String[] optionArguments = new String[17];
     public static boolean useWarnTimer, useMessageRepeatTimer, useMaxSingleWordMessageLength, useRepeatLetters, useMatchingLetters, useMatchingWords, useNoRepeatMessage, useCorrectionFilter;
-    public static int maxWordLength, characterPercent, wordPercent, repeatLetters , correctionsWordLeght, correctionsMessageLength;
+    public static int maxWordLength, characterPercent, wordPercent, repeatLetters , correctionsWordLeght, correctionsMessageLength, kickTimerSpeed, repeatTimerSpeed, spamTimesToKick;
+    
+    //Writes default options to the options file
     
     public static void writeDefaults(File f) throws IOException{
         
@@ -25,6 +29,8 @@ public class SpamCopOptions {
         }
         output.close();
     }
+    
+    //Reads the options in the options files
     
     public static void parseOptionArguments(File f) throws IOException{
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
@@ -48,6 +54,8 @@ public class SpamCopOptions {
     }
         
     
+        //Trys to set the options to the options in the config, if there is an error it goes to default settings
+    
         public static void setOptions(){
             try{
             useWarnTimer = Boolean.parseBoolean(optionArguments[0]);
@@ -64,6 +72,9 @@ public class SpamCopOptions {
             correctionsWordLeght = Integer.parseInt(optionArguments[11]);
             correctionsMessageLength = Integer.parseInt(optionArguments[12]);
             useCorrectionFilter = Boolean.parseBoolean(optionArguments[13]);
+            kickTimerSpeed = Integer.parseInt(optionArguments[14]);
+            repeatTimerSpeed = Integer.parseInt(optionArguments[15]);
+            spamTimesToKick = Integer.parseInt(optionArguments[16]);
             }catch(Exception e){
             System.out.println("[SpamCop] Error in options file, switching to defaults!");
             useWarnTimer = true;
@@ -80,6 +91,9 @@ public class SpamCopOptions {
             correctionsWordLeght = 2;
             correctionsMessageLength = 10;
             useCorrectionFilter = true;
+            kickTimerSpeed = 5;
+            repeatTimerSpeed = 5;
+            spamTimesToKick = 5;
             }
         }
     

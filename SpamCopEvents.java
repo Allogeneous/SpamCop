@@ -218,7 +218,7 @@ public class SpamCopEvents implements Listener{
                 if(isCancelledLastDouble == true){
                     p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say the same message twice in a row!");
                 }else if(isCancelledLetters == true){
-                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say more than 4 of the same character in a row!");
+                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say more than" + SpamCopOptions.repeatLetters + "of the same character in a row!");
                 }else if(isCancelledTimerDouble == true){
                     p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say the same message that fast!");
                 }else if(isCancelledLettersPercent == true){
@@ -230,21 +230,21 @@ public class SpamCopEvents implements Listener{
                 }
                 
                 if(!p.hasPermission("spamCop.canBypassSpamKickTimer") && SpamCopOptions.useWarnTimer){
-                    if(SpamCop.getTimesWarned().get(p.getUniqueId()) >= 5){
+                    if(SpamCop.getTimesWarned().get(p.getUniqueId()) >= SpamCopOptions.spamTimesToKick){
                     Bukkit.getScheduler().runTask(plugin, new Runnable() {
                         @Override
                         public void run() {
                             SpamCop.getKickReset().get(p.getUniqueId()).cancel();
                             SpamCop.getKickReset().remove(p.getUniqueId());
                             SpamCop.getTimesWarned().remove(p.getUniqueId());
-                            p.kickPlayer(SpamCop.tag + ChatColor.DARK_RED + "You have been kicked for having more than 5 spam warnings in the last 5 minutes!");
+                            p.kickPlayer(SpamCop.tag + ChatColor.DARK_RED + "You have been kicked for having more than " + SpamCopOptions.spamTimesToKick + " spam warnings in the last" + SpamCopOptions.kickTimerSpeed + "minutes!");
                         }
                     });
                     
                 }
                 
                 if(!SpamCop.getKickReset().containsKey(p.getUniqueId())){
-                    BukkitTask kicker = new SpamCopKickWorker(p.getUniqueId()).runTaskLaterAsynchronously(this.plugin, 5 * 1200);
+                    BukkitTask kicker = new SpamCopKickWorker(p.getUniqueId()).runTaskLaterAsynchronously(this.plugin, SpamCopOptions.kickTimerSpeed * 1200);
                     SpamCop.getKickReset().put(p.getUniqueId(), kicker);
                 } 
                }
@@ -255,7 +255,7 @@ public class SpamCopEvents implements Listener{
             if(SpamCopOptions.useMessageRepeatTimer && !p.hasPermission("spamCop.canBypassDoubleMessagesTimer")){
                 if(!SpamCop.getPlayerMessages().get(p.getUniqueId()).contains(msg)){
                     SpamCop.getPlayerMessages().get(p.getUniqueId()).add(msg);
-                    BukkitTask remover = new SpamCopWordListWorker(p.getUniqueId(), msg).runTaskLater(this.plugin, 100);
+                    BukkitTask remover = new SpamCopWordListWorker(p.getUniqueId(), msg).runTaskLater(this.plugin, SpamCopOptions.repeatTimerSpeed * 20);
                 }
             }
         
