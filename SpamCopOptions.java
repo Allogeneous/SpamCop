@@ -44,7 +44,7 @@ public class SpamCopOptions {
                     }catch (Exception e){
                         String[] split = defaults[iterations].split(":");
                         optionArguments[iterations - 1] = split[1].substring(1);
-                        System.out.println("[SpamCop] Option not found for " + split[0] + ", using default setting!");
+                        System.out.println("[SpamCop] Option not found for " + split[iterations] + ", using default setting!");
                     }
                     
                 }

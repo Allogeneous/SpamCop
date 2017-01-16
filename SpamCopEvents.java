@@ -237,7 +237,7 @@ public class SpamCopEvents implements Listener{
                             SpamCop.getKickReset().get(p.getUniqueId()).cancel();
                             SpamCop.getKickReset().remove(p.getUniqueId());
                             SpamCop.getTimesWarned().remove(p.getUniqueId());
-                            p.kickPlayer(SpamCop.tag + ChatColor.DARK_RED + "You have been kicked for having more than " + SpamCopOptions.spamTimesToKick + " spam warnings in the last" + SpamCopOptions.kickTimerSpeed + "minutes!");
+                            p.kickPlayer(SpamCop.tag + ChatColor.DARK_RED + "You have been kicked for having more than " + SpamCopOptions.spamTimesToKick + " spam warnings in the last " + SpamCopOptions.kickTimerSpeed + " minutes!");
                         }
                     });
                     
