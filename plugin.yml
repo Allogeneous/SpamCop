@@ -32,3 +32,6 @@ permissions:
     spamCop.canUseRepeatLetters:
         description: Allows the player to use repeat letters
         default: op
+    spamCop.canUseRepeatWords:
+        description: Allows the player to use repeat words
+        default: op

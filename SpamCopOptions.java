@@ -6,16 +6,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class SpamCopOptions {
     
     //Variables
     
-    public static String[] defaults = {"Spam Cop Options and Settings!", "UseWarnTimer: true", "UseMessageRepeatTimer: true" ,"UseMaxSingleWordMessageLength: true", "UseRepeatLetters: true", "UseMatchingLetters: true", "UseMatchingWords: true", "UseNoRepeatMessage: true", "MaxWordLength: 25" , "CharacterPercent: 80", "WordPercent: 80", "RepeatLetters: 4", "CorrectionsWordLeght: 2", "CorrectionsMessageLength: 10", "UseCorrectionFilter: true", "KickTimerSpeed (Minutes): 5", "RepeatTimerSpeed (Seconds): 5", "TimesToSpamUntilKicked: 5"};
-    public static String[] optionArguments = new String[17];
-    public static boolean useWarnTimer, useMessageRepeatTimer, useMaxSingleWordMessageLength, useRepeatLetters, useMatchingLetters, useMatchingWords, useNoRepeatMessage, useCorrectionFilter;
-    public static int maxWordLength, characterPercent, wordPercent, repeatLetters , correctionsWordLeght, correctionsMessageLength, kickTimerSpeed, repeatTimerSpeed, spamTimesToKick;
+    public static String[] defaults = {"Spam Cop Options and Settings!", "UseWarnTimer: true", "UseMessageRepeatTimer: true" ,"UseMaxSingleWordMessageLength: true", "UseRepeatLetters: true", "UseMatchingLettersPercent: true", "UseNoRepeatMessage: true", "MaxWordLength: 25" , "CharacterPercent: 80", "RepeatLetters: 4", "CorrectionsWordLeght: 2", "CorrectionsMessageLength: 10", "UseCorrectionFilter: true", "KickTimerSpeed (Minutes): 5", "RepeatTimerSpeed (Seconds): 5", "TimesToSpamUntilKicked: 5", "UseMatchingWordsPercent: true", "WordPercent: 80", "RepeatWords: 3", "UseRepeatWords: true"};
+    public static String[] optionArguments = new String[19];
+    public static boolean useWarnTimer, useMessageRepeatTimer, useMaxSingleWordMessageLength, useRepeatLetters, useMatchingLetters, useNoRepeatMessage, useCorrectionFilter, useMatchingWords, useRepeatWords;
+    public static int maxWordLength, repeatLetters , correctionsWordLeght, correctionsMessageLength, kickTimerSpeed, repeatTimerSpeed, spamTimesToKick, repeatWords;
+    public static double characterPercent, wordPercent;
     
     //Writes default options to the options file
     
@@ -63,18 +63,20 @@ public class SpamCopOptions {
             useMaxSingleWordMessageLength = Boolean.parseBoolean(optionArguments[2]);
             useRepeatLetters = Boolean.parseBoolean(optionArguments[3]);
             useMatchingLetters = Boolean.parseBoolean(optionArguments[4]);
-            useMatchingWords = Boolean.parseBoolean(optionArguments[5]);
-            useNoRepeatMessage = Boolean.parseBoolean(optionArguments[6]);
-            maxWordLength = Integer.parseInt(optionArguments[7]);
-            characterPercent = Integer.parseInt(optionArguments[8]);
-            wordPercent = Integer.parseInt(optionArguments[9]);
-            repeatLetters = Integer.parseInt(optionArguments[10]);
-            correctionsWordLeght = Integer.parseInt(optionArguments[11]);
-            correctionsMessageLength = Integer.parseInt(optionArguments[12]);
-            useCorrectionFilter = Boolean.parseBoolean(optionArguments[13]);
-            kickTimerSpeed = Integer.parseInt(optionArguments[14]);
-            repeatTimerSpeed = Integer.parseInt(optionArguments[15]);
-            spamTimesToKick = Integer.parseInt(optionArguments[16]);
+            useNoRepeatMessage = Boolean.parseBoolean(optionArguments[5]);
+            maxWordLength = Integer.parseInt(optionArguments[6]);
+            characterPercent = Double.parseDouble(optionArguments[7]);
+            repeatLetters = Integer.parseInt(optionArguments[8]);
+            correctionsWordLeght = Integer.parseInt(optionArguments[9]);
+            correctionsMessageLength = Integer.parseInt(optionArguments[10]);
+            useCorrectionFilter = Boolean.parseBoolean(optionArguments[11]);
+            kickTimerSpeed = Integer.parseInt(optionArguments[12]);
+            repeatTimerSpeed = Integer.parseInt(optionArguments[13]);
+            spamTimesToKick = Integer.parseInt(optionArguments[14]);
+            useMatchingWords = Boolean.parseBoolean(optionArguments[15]);
+            wordPercent = Double.parseDouble(optionArguments[16]);
+            repeatWords = Integer.parseInt(optionArguments[17]);
+            useRepeatWords = Boolean.parseBoolean(optionArguments[18]);
             }catch(Exception e){
             System.out.println("[SpamCop] Error in options file, switching to defaults!");
             useWarnTimer = true;
@@ -82,11 +84,9 @@ public class SpamCopOptions {
             useMaxSingleWordMessageLength = true;
             useRepeatLetters = true;
             useMatchingLetters = true;
-            useMatchingWords = true;
             useNoRepeatMessage = true;
             maxWordLength = 25;
             characterPercent = 80;
-            wordPercent = 80;
             repeatLetters = 4;
             correctionsWordLeght = 2;
             correctionsMessageLength = 10;
@@ -94,6 +94,8 @@ public class SpamCopOptions {
             kickTimerSpeed = 5;
             repeatTimerSpeed = 5;
             spamTimesToKick = 5;
+            useMatchingWords = true;
+            useRepeatWords = true;
             }
         }
     

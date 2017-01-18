@@ -25,8 +25,9 @@ public class SpamCopEvents implements Listener{
         boolean isCancelledTimerDouble = false;
         boolean isCancelledLastDouble =  false; 
         boolean isCancelledLetters = false;
-        boolean isCancelledWordsPercent = false;
+        boolean isCancelledWords = false;
         boolean isCancelledLettersPercent = false;
+        boolean isCancelledWordsPercent = false;
         boolean isCancelledLength = false;
         
         
@@ -58,7 +59,7 @@ public class SpamCopEvents implements Listener{
         
          //Cancelles chat message if the message contains no spaces and is greater than or equal to a given amount
         
-        if(!p.hasPermission("spamCop.canBypassMaxWordLength") && SpamCopOptions.useMaxSingleWordMessageLength && isCancelledLastDouble == false && !msg.contains(" ") && msg.length() >= 25){
+        if(!p.hasPermission("spamCop.canBypassMaxWordLength") && SpamCopOptions.useMaxSingleWordMessageLength && isCancelledLastDouble == false && !msg.contains(" ") && msg.length() >= SpamCopOptions.maxWordLength){
             isCancelledLength = true;
         }
         
@@ -70,95 +71,29 @@ public class SpamCopEvents implements Listener{
                     isCancelledTimerDouble = true;
                     break;
                 }
-        }
-            
+            }
+        }   
          //Cancelles chat message if the message contains a given percentage of similar characters in the same order as one of the players pervious messages saved in tge code block above 
            
             
         if(!p.hasPermission("spamCop.canBypassCharacterPercent") && SpamCopOptions.useMatchingLetters && isCancelledLastDouble == false && isCancelledTimerDouble == false && isCancelledLength == false && SpamCop.getLastMessage().containsKey(p.getUniqueId())){
-                    char[] letters = msg.toCharArray();
-                    char[] oldLetters = savedLastMsg.toCharArray();
-                    int newLetterCount = letters.length;
-                    int oldLetterCount = oldLetters.length;
-                    int comparison, iterations = 0, matches = 0;
-                    
-                    if(oldLetterCount >= newLetterCount){
-                        comparison = (int) Math.round(oldLetterCount * SpamCopOptions.characterPercent / 100);
-                        for(char letter : oldLetters){
-                            if(Character.toLowerCase(letter) == Character.toLowerCase(letters[iterations])){
-                                matches++;
-                            }
-                            iterations++;
-                            if(iterations >= letters.length){
-                                break;
-                            }
-                        }
-                    }else{
-                        comparison = (int) Math.round(newLetterCount * SpamCopOptions.characterPercent / 100);
-                        for(char letter : letters){
-                            if(Character.toLowerCase(letter) == Character.toLowerCase(oldLetters[iterations])){
-                                matches++;
-                            }
-                            iterations++;
-                            if(iterations >= oldLetters.length){
-                                break;
-                            }
-                        }
-                    }
-                    
-                    if(matches >= comparison){
-                        isCancelledLettersPercent = true;
-                    }
-                    
-                    
+            if(SpamCopFindPercentages.findCharacterPercent(msg, savedLastMsg) >= (SpamCopOptions.characterPercent / 100)){
+                isCancelledLettersPercent = true;
+           }           
         }        
-    }
         
-       //Cancelles chat message if the message contains a given percentage of similar words in the same order as one of the players pervious messages saved in tge code block above 
-        
-       if(!p.hasPermission("spamCop.canBypassWordPercent") && SpamCopOptions.useMatchingWords && isCancelledLastDouble == false &&  isCancelledTimerDouble == false && isCancelledLettersPercent == false && isCancelledLength == false && SpamCop.getLastMessage().containsKey(p.getUniqueId())){
+        if(!p.hasPermission("spamCop.canBypassWordPercent") && SpamCopOptions.useMatchingWords && isCancelledLastDouble == false &&  isCancelledTimerDouble == false && isCancelledLettersPercent == false && isCancelledLength == false && SpamCop.getLastMessage().containsKey(p.getUniqueId())){
              if(msg.contains(" ")){
-                
-                 String[] oldWords = savedLastMsg.split(" ");
-                 String[] words = msg.split(" ");
-                 int newWordCount = words.length;
-                 int oldWordCount = oldWords.length;
-                 
-                 int comparison, iterations = 0, matches = 0;
-                    
-                    if(oldWordCount >= newWordCount){
-                        comparison = (int) Math.round(oldWordCount * SpamCopOptions.wordPercent / 100);
-                        for(String word : oldWords){
-                            if(word.equalsIgnoreCase(words[iterations])){
-                                matches++;
-                            }
-                            iterations++;
-                            if(iterations >= words.length){
-                                break;
-                            }
-                        }
-                    }else{
-                        comparison = (int) Math.round(newWordCount * SpamCopOptions.wordPercent / 100);
-                        for(String word : words){
-                            if(word.equalsIgnoreCase(oldWords[iterations])){
-                                matches++;
-                            }
-                            iterations++;
-                            if(iterations >= oldWords.length){
-                                break;
-                            }
-                        }
-                    }
-                    
-                    if(matches >= comparison){
-                        isCancelledWordsPercent = true;
-                    }
+                 if(SpamCopFindPercentages.findWordPercent(msg, savedLastMsg, " ") >= SpamCopOptions.wordPercent / 100){
+                     isCancelledWordsPercent = true;
+                 }
              }
         }
         
+        
        //Cancelles chat message if the message contains more than a given number of the same character in a row
        
-        if(!p.hasPermission("spamCop.canUseRepeatLetters") && SpamCopOptions.useRepeatLetters && isCancelledLastDouble == false &&  isCancelledTimerDouble == false && isCancelledLettersPercent == false && isCancelledWordsPercent == false && isCancelledLength == false){
+        if(!p.hasPermission("spamCop.canUseRepeatLetters") && SpamCopOptions.useRepeatLetters && isCancelledLastDouble == false &&  isCancelledTimerDouble == false && isCancelledLettersPercent == false && isCancelledLength == false && isCancelledWordsPercent == false){
             char[] letters = msg.toCharArray();
             char last;
             int repeats = 0;
@@ -177,6 +112,30 @@ public class SpamCopEvents implements Listener{
                     break;
                 }
             }
+        }
+        
+        //Cancelles chat message if the message contains more than a given number of the same character in a row
+       
+        if(!p.hasPermission("spamCop.canUseRepeatWords") && SpamCopOptions.useRepeatWords && isCancelledLastDouble == false &&  isCancelledTimerDouble == false && isCancelledLettersPercent == false && isCancelledLength == false && isCancelledWordsPercent == false && isCancelledLetters == false){
+                if(msg.contains(" ")){
+                    String[] words = msg.split(" ");
+                    String last;
+                    int repeats = 0;
+                
+                    for(int i = 1; i < words.length; i++){
+                        last = words[i - 1];
+                            if(words[i].equalsIgnoreCase(last)){
+                                repeats++;
+                            }else{
+                                repeats = 0;
+                            }
+                        if(repeats >= SpamCopOptions.repeatWords){
+                            isCancelledWords = true;
+                            break;
+                        }
+                    }
+            }
+            
         }
         
         //Some code to check and see if the player is trying to correct a mistake in chat
@@ -204,7 +163,7 @@ public class SpamCopEvents implements Listener{
             
             //Cancelles chat event and sends the player the approptiate message
         
-            if(isCancelledLetters == true || isCancelledLettersPercent == true || isCancelledTimerDouble == true || isCancelledWordsPercent == true || isCancelledLastDouble == true || isCancelledLength == true){
+            if(isCancelledLetters == true || isCancelledLettersPercent == true || isCancelledTimerDouble == true || isCancelledLastDouble == true || isCancelledLength == true || isCancelledWordsPercent == true || isCancelledWords == true){
                 e.setCancelled(true);
                 if(!p.hasPermission("spamCop.canBypassSpamKickTimer") && SpamCopOptions.useWarnTimer){
                     if(SpamCop.getTimesWarned().containsKey(p.getUniqueId())){
@@ -218,15 +177,17 @@ public class SpamCopEvents implements Listener{
                 if(isCancelledLastDouble == true){
                     p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say the same message twice in a row!");
                 }else if(isCancelledLetters == true){
-                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say more than" + SpamCopOptions.repeatLetters + "of the same character in a row!");
+                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say more than " + SpamCopOptions.repeatLetters + " of the same character in a row!");
                 }else if(isCancelledTimerDouble == true){
                     p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say the same message that fast!");
                 }else if(isCancelledLettersPercent == true){
                     p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say this message due to a high amount of matching characters!");
-                }else if(isCancelledWordsPercent == true){
-                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say this message due to a high amount of matching words!");
                 }else if(isCancelledLength == true){
                     p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say a word that is that long!");
+                }else if(isCancelledWordsPercent == true){
+                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say this message due to a high amount of matching words!"); 
+                }else if(isCancelledWords == true){
+                    p.sendMessage(SpamCop.tag + ChatColor.DARK_RED + "You can't say more than " + SpamCopOptions.repeatWords + " of the same word in a row!");
                 }
                 
                 if(!p.hasPermission("spamCop.canBypassSpamKickTimer") && SpamCopOptions.useWarnTimer){

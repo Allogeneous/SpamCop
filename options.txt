@@ -3,12 +3,10 @@ UseWarnTimer: true
 UseMessageRepeatTimer: true
 UseMaxSingleWordMessageLength: true
 UseRepeatLetters: true
-UseMatchingLetters: true
-UseMatchingWords: true
+UseMatchingLettersPercent: true
 UseNoRepeatMessage: true
 MaxWordLength: 25
 CharacterPercent: 80
-WordPercent: 80
 RepeatLetters: 4
 CorrectionsWordLeght: 2
 CorrectionsMessageLength: 10
@@ -16,3 +14,7 @@ UseCorrectionFilter: true
 KickTimerSpeed (Minutes): 5
 RepeatTimerSpeed (Seconds): 5
 TimesToSpamUntilKicked: 5
+UseMatchingWordsPercent: true
+WordPercent: 80
+RepeatWords: 3
+UseRepeatWords: true
