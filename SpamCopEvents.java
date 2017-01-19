@@ -77,7 +77,7 @@ public class SpamCopEvents implements Listener{
            
             
         if(!p.hasPermission("spamCop.canBypassCharacterPercent") && SpamCopOptions.useMatchingLetters && isCancelledLastDouble == false && isCancelledTimerDouble == false && isCancelledLength == false && SpamCop.getLastMessage().containsKey(p.getUniqueId())){
-            if(SpamCopFindPercentages.findCharacterPercent(msg, savedLastMsg) >= (SpamCopOptions.characterPercent / 100)){
+            if(SpamCopFindPercentages.findStringPercentSimilarity(msg, savedLastMsg, SpamCopFindPercentages.findLevDistance(msg, savedLastMsg)) >= (SpamCopOptions.characterPercent / 100)){
                 isCancelledLettersPercent = true;
            }           
         }        

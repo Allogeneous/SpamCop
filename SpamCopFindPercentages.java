@@ -1,51 +1,53 @@
 package spamcop;
 
 public class SpamCopFindPercentages {
-    /* 
-     Levenshtein Distance strongly adapted from:
-     http://rosettacode.org/wiki/Levenshtein_distance#Java
-  */
     
-  public static double findCharacterPercent(String s1, String s2) {
-    String longer = s1, shorter = s2;
-    if (s1.length() < s2.length()) { 
-      longer = s2; shorter = s1;
-    }
-    int longerLength = longer.length();
-    if (longerLength == 0) { 
-        return 0.0; 
-    }
-   
     
-    return (longerLength - editDistanceCharacters(longer, shorter)) / (double) longerLength;
+   public static double findStringPercentSimilarity(String one, String two, int ld){
+      
+      if(one.length() >= two.length()){
+          return (double) (one.length() - ld) / one.length();
+      }else{
+          return (double) (two.length() - ld) / two.length();
+      }
   }
 
-  public static int editDistanceCharacters(String s1, String s2) {
-    s1 = s1.toLowerCase();
-    s2 = s2.toLowerCase();
-
-    int[] costs = new int[s2.length() + 1];
-    for (int i = 0; i <= s1.length(); i++) {
-      int lastValue = i;
-      for (int j = 0; j <= s2.length(); j++) {
-        if (i == 0){
-          costs[j] = j;
-        }else {
-          if (j > 0) {
-            int newValue = costs[j - 1];
-            if (s1.charAt(i - 1) != s2.charAt(j - 1)){
-              newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-            }
-            costs[j - 1] = lastValue;
-            lastValue = newValue;
+  public static int findLevDistance(String one, String two){
+      
+      int l1 = one.length();
+      int l2 = two.length();
+      
+      int[][] dist = new int[l1 +1][l2+2];
+      
+      for(int i = 0; i <= l2; i++){
+          dist[0][i] = i;
+      }
+      
+      for(int j = 0; j <= l1; j++){
+          dist[j][0] = j;
+      }
+      
+      for(int i = 1; i <= l1; i++){
+          for(int j = 1; j <= l2; j++){
+              if(one.toLowerCase().charAt(i - 1) == two.toLowerCase().charAt(j - 1)){
+                  dist[i][j] = dist[i-1][j-1];
+              }else{
+                  dist[i][j] = min3Ints(1 + dist[i][j-1], 1 + dist[i-1][j], 1 + dist[i-1][j-1]);
+              }
           }
+      }
+      
+      return dist[l1][l2];
+  }
+  
+  public static int min3Ints(int a, int b, int c){
+        if(a < b && a < c){
+            return a;
+        }else if(b < c && b < a){
+            return b;
+        }else{
+            return c;
         }
-      }
-      if (i > 0){
-        costs[s2.length()] = lastValue;
-      }
-    }
-    return costs[s2.length()];
   }
   
   //My own word percent sorter
